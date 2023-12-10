@@ -1,8 +1,18 @@
-resource "aws_nat_gateway" "main" {
-  allocation_id = aws_eip.main.id
+resource "aws_nat_gateway" "ngw" {
+  allocation_id = aws_eip.eip.id
   subnet_id     = aws_subnet.public[0].id
+  
+    tags = {
+    Name = "${var.eks_cluster_name}-ngw"
+  }
+  depends_on = [aws_internet_gateway.igw]
+  
 }
 
-resource "aws_eip" "main" {
-  domain = "vpc"
+resource "aws_eip" "eip" {
+  vpc = "true"
+  
+    tags = {
+    Name = "${var.eks_cluster_name}-eip"
+  }
 }

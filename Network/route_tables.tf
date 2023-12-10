@@ -3,7 +3,11 @@ resource "aws_route_table" "public" {
 
   route {
     cidr_block = "0.0.0.0/0"
-    gateway_id = aws_internet_gateway.main.id
+    gateway_id = aws_internet_gateway.igw.id
+  }
+  
+    tags = {
+    Name = "${var.eks_cluster_name}-public-rt"
   }
 }
 
@@ -19,7 +23,10 @@ resource "aws_route_table" "private" {
   // Route traffic from private subnets through the NAT gateway
   route {
     cidr_block = "0.0.0.0/0"
-    nat_gateway_id = aws_nat_gateway.main.id
+    nat_gateway_id = aws_nat_gateway.ngw.id
+  }
+    tags = {
+    Name = "${var.eks_cluster_name}-private-rt"
   }
 }
 
