@@ -7,11 +7,10 @@ resource "aws_subnet" "public" {
 
   map_public_ip_on_launch = true
 
-  tags = {
-    Name = "${var.eks_cluster_name}-public-${count.index + 1}"
-    "kubernetes.io/role/internal-elb" = "1"
-    "kubernetes/cluster/${var.eks_cluster_name}" = "owned"
-  }
+  tags = merge (
+    {Name = "${var.environment}-public-${var.availability_zones[count.index]}"},
+    var.public_subnet_tags
+  )
 }
 
 resource "aws_subnet" "private" {
@@ -21,9 +20,8 @@ resource "aws_subnet" "private" {
   vpc_id     = aws_vpc.main.id
   availability_zone =element(var.availability_zones, count.index)
 
-  tags = {
-    Name = "${var.eks_cluster_name}-private-${count.index + 1}"
-    "kubernetes.io/role/internal-elb" = "1"
-    "kubernetes/cluster/${var.eks_cluster_name}" = "owned"
-  }
+  tags = merge (
+    {Name = "${var.environment}-private-${var.availability_zones[count.index]}"},
+    var.private_subnet_tags
+  )
 }

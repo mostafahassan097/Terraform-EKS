@@ -3,6 +3,12 @@ variable "region" {
   type        = string
 }
 
+variable "environment" {
+  description = "Environment"
+  type        = string
+}
+
+
 variable "vpc_cidr_block" {
   description = "CIDR block for VPC"
   type        = string
@@ -18,10 +24,15 @@ variable "private_subnet_cidr_blocks" {
   type        = list(string)
 }
 
-variable "eks_cluster_name" {
-  description = "Name of the EKS cluster"
-  type        = string
+variable "private_subnet_tags" {
+  description = "Private subnet tags"
+  type        = map(any)
 }
+variable "public_subnet_tags" {
+  description = "Public subnet tags"
+  type        = map(any)
+}
+
 
 variable "availability_zones" {
   description = "List of availability zones"

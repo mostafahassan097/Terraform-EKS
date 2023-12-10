@@ -7,7 +7,7 @@ resource "aws_route_table" "public" {
   }
   
     tags = {
-    Name = "${var.eks_cluster_name}-public-rt"
+    Name = "${var.environment}-${var.eks_name}-public-rt"
   }
 }
 
@@ -26,7 +26,7 @@ resource "aws_route_table" "private" {
     nat_gateway_id = aws_nat_gateway.ngw.id
   }
     tags = {
-    Name = "${var.eks_cluster_name}-private-rt"
+    Name = "${var.environment}-${var.eks_name}-private-rt"
   }
 }
 
