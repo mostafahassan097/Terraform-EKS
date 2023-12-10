@@ -10,8 +10,7 @@ resource "aws_nat_gateway" "ngw" {
 }
 
 resource "aws_eip" "eip" {
-  vpc = "true"
-  
+  domain = "vpc"  
     tags = {
     Name = "${var.eks_cluster_name}-eip"
   }
