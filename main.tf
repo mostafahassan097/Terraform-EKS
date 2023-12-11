@@ -1,4 +1,4 @@
-#data "aws_availability_zones" "available" {}
+data "aws_availability_zones" "available" {}
 provider "aws" {
   region = var.region
 }
@@ -17,8 +17,8 @@ module "vpc" {
   vpc_cidr_block              = var.vpc_cidr_block
   public_subnet_cidr_blocks   = var.public_subnet_cidr_blocks
   private_subnet_cidr_blocks  = var.private_subnet_cidr_blocks
-  availability_zones          = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]  # Add your AZs here
-  #availability_zones          = data.aws_availability_zones.available.names
+  #availability_zones          = ["eu-central-1a", "eu-central-1b", "eu-central-1c"]  # Add your AZs here
+  availability_zones          = data.aws_availability_zones.available.names
   public_subnet_tags          = var.public_subnet_tags
   private_subnet_tags         = var.private_subnet_tags
   
