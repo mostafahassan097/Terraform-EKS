@@ -1,3 +1,6 @@
 .terraform/*
 .terraform.*
-Network/.terraform/*
+terraform.*
+VPC/.terraform/*
+EKS/.terraform/*
+
