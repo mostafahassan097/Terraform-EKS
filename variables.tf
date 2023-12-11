@@ -34,10 +34,6 @@ variable "public_subnet_tags" {
   type        = map(any)
 }
 #=============================={EKS Module}============================
-variable "env" {
-  description = "Environment name."
-  type        = string
-}
 
 variable "eks_version" {
   description = "Desired Kubernetes master version."
@@ -49,10 +45,6 @@ variable "eks_name" {
   type        = string
 }
 
-variable "subnet_ids" {
-  description = "List of subnet IDs. Must be in at least two different availability zones."
-  type        = list(string)
-}
 
 variable "node_iam_policies" {
   description = "List of IAM Policies to attach to EKS-managed nodes."

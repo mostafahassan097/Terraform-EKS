@@ -1,5 +1,5 @@
-resource "aws_iam_role" "eks-role" {
-  name = "${var.env}-${var.eks_name}-eks-cluster"
+resource "aws_iam_role" "master_role" {
+  name = "${var.env}-${var.eks_name}-eks-master"
 
   assume_role_policy = <<POLICY
 {
@@ -17,22 +17,21 @@ resource "aws_iam_role" "eks-role" {
 POLICY
 }
 
-resource "aws_iam_role_policy_attachment" "eks-role-attach" {
+resource "aws_iam_role_policy_attachment" "master_role_attach" {
   policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy"
-  role       = aws_iam_role.eks.name
+  role       = aws_iam_role.master_role.name
 }
 
-resource "aws_eks_cluster" "eks" {
+resource "aws_eks_cluster" "eks_cluster" {
   name     = "${var.env}-${var.eks_name}"
   version  = var.eks_version
-  role_arn = aws_iam_role.eks.arn
+  role_arn = aws_iam_role.master_role.arn
 
   vpc_config {
     endpoint_private_access = false
-    endpoint_public_access  = true
-
+    endpoint_public_access  = false
     subnet_ids = var.subnet_ids
   }
 
-  depends_on = [aws_iam_role_policy_attachment.eks]
+  depends_on = [aws_iam_role_policy_attachment.master_role_attach]
 }
