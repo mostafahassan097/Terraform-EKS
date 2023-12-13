@@ -7,7 +7,7 @@ resource "aws_route_table" "public" {
   }
   
     tags = {
-    Name = "${var.environment}-public-rt"
+    Name = "${var.env}-public-rt"
   }
 }
 
@@ -26,7 +26,7 @@ resource "aws_route_table" "private" {
     nat_gateway_id = aws_nat_gateway.ngw.id
   }
     tags = {
-    Name = "${var.environment}-private-rt"
+    Name = "${var.env}-private-rt"
   }
 }
 

@@ -8,7 +8,7 @@ resource "aws_subnet" "public" {
   map_public_ip_on_launch = true
 
   tags = merge (
-    {Name = "${var.environment}-public-${var.availability_zones[count.index]}"},
+    {Name = "${var.env}-public-${var.availability_zones[count.index]}"},
     var.public_subnet_tags
   )
 }
@@ -21,7 +21,7 @@ resource "aws_subnet" "private" {
   availability_zone =element(var.availability_zones, count.index)
 
   tags = merge (
-    {Name = "${var.environment}-private-${var.availability_zones[count.index]}"},
+    {Name = "${var.env}-private-${var.availability_zones[count.index]}"},
     var.private_subnet_tags
   )
 }

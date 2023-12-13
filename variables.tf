@@ -25,14 +25,6 @@ variable "private_subnet_cidr_blocks" {
   type        = list(string)
 }
 
-variable "private_subnet_tags" {
-  description = "Private subnet tags"
-  type        = map(any)
-}
-variable "public_subnet_tags" {
-  description = "Public subnet tags"
-  type        = map(any)
-}
 #=============================={EKS Module}============================
 
 variable "eks_version" {
@@ -66,4 +58,29 @@ variable "enable_irsa" {
   description = "Determines whether to create an OpenID Connect Provider for EKS to enable IRSA"
   type        = bool
   default     = true
+}
+
+#============================{Bastion}============================================
+variable "ami" {
+  description = "AMI ID"
+  type = string
+  default = "ami-0c55b159cbfafe1f0"
+}
+variable "instance_type" {
+  description = "instance type"
+  type = string
+}
+
+
+variable "key_name" {
+  description = "Name of the SSH key pair for the Bastion host"
+  type        = string
+}
+variable "private_key_path" {
+  description = "Path to the private key file for SSH access"
+  type        = string
+}
+variable "private_key_name" {
+  description = "Name of the private key file for SSH access"
+  type        = string
 }
