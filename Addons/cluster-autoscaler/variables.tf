@@ -11,7 +11,7 @@ variable "eks_name" {
 variable "enable_cluster_autoscaler" {
   description = "Determines whether to deploy cluster autoscaler"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "cluster_autoscaler_helm_verion" {

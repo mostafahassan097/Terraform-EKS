@@ -31,12 +31,15 @@ This repository provides Terraform modules for deploying a secure EKS cluster wi
 2. Install Terraform and AWS CLI.
 3. Configure your AWS credentials.
 4. Run `terraform init` to initialize modules.
-5. Preview changes with `terraform plan`.
+5. Preview changes with `terraform plan --var-file=prod.tfvars`.
 6. Review and confirm changes.
-7. Deploy the infrastructure with `terraform apply`.
+7. Deploy the infrastructure with `terraform apply --var-file=prod.tfvars`.
 
 **Note:** This is a basic example and can be customized for your specific needs. Consider IAM policies and Kubernetes RBAC for further access control. Use s3 as backend for terraform state file.
+## After Deploying Terraform Code  :
 
+![App Screenshot](https://github.com/mostafahassan097/Terraform-EKS/blob/master/Images/1.png)
+![App Screenshot](https://github.com/mostafahassan097/Terraform-EKS/blob/master/Images/2.png)
 **Resources:**
 
 * AWS VPC: [https://docs.aws.amazon.com/toolkit-for-visual-studio/latest/user-guide/vpc-tkv.html](https://docs.aws.amazon.com/toolkit-for-visual-studio/latest/user-guide/vpc-tkv.html)
