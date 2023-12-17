@@ -18,6 +18,38 @@ variable "subnet_ids" {
   type        = list(string)
 }
 
+variable "bastion_sg_id" {
+  type = string
+}
+
+variable "vpc_id" {
+  description = "VPC ID"
+  type        = string
+}
+variable "bastion_public_ip" {
+  description = "bastion ip"
+  type        = string
+}
+
+variable "bastion_role_name" {
+  description = "bastion_role_name"
+  type        = string
+}
+
+variable "bastion_role_arn" {
+  description = "bastion_role_arn"
+  type        = string
+}
+
+
+variable "endpoint_private_access" {
+  type = bool
+  default = true
+}
+variable "endpoint_public_access" {
+  type = bool
+  default = true
+}
 variable "node_iam_policies" {
   description = "List of IAM Policies to attach to EKS-managed nodes."
   type        = map(any)

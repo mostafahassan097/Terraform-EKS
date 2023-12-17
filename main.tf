@@ -3,6 +3,27 @@ provider "aws" {
   region = var.region
 }
 
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks.cluster_id
+}
+
+# Terraform Kubernetes Provider
+provider "kubernetes" {
+  host = module.eks.endpoint
+  cluster_ca_certificate =base64decode(module.eks.certificate_authority[0].data)
+  token = data.aws_eks_cluster_auth.cluster.token
+}
+
+
+provider "helm" {
+  kubernetes {
+  host = module.eks.endpoint
+  cluster_ca_certificate = base64decode(module.eks.certificate_authority[0].data)
+  token = data.aws_eks_cluster_auth.cluster.token
+  }
+}
+
+
 terraform {
   backend "local" {
     path = "terraform.tfstate"
@@ -24,7 +45,7 @@ module "vpc" {
 }
 
   private_subnet_tags         =  {
-  "kubernetes.io/role/elb" = 1
+  "kubernetes.io/role/internal-elb" = 1
   "kubernetes.io/cluster/${var.environment}-${var.eks_name}" = "owned"
 }
 
@@ -33,12 +54,19 @@ module "vpc" {
 
 
 module "eks" {
-  source = "./EKS"
-  env         = var.environment
-  eks_version = var.eks_version
-  eks_name    = var.eks_name
-  subnet_ids  = module.vpc.private_subnet_ids
-  node_groups = var.node_groups
+  source                  = "./EKS"
+  env                     = var.environment
+  eks_version             = var.eks_version
+  eks_name                = var.eks_name
+  subnet_ids              = module.vpc.private_subnet_ids
+  node_groups             = var.node_groups
+  bastion_sg_id           = module.bastion.bastion_sg_id 
+  vpc_id                  = module.vpc.vpc_id
+  endpoint_private_access = var.endpoint_private_access
+  endpoint_public_access  = var.endpoint_public_access
+  bastion_public_ip       = module.bastion.bastion_public_ip
+  bastion_role_arn        = module.bastion.role_arn
+  bastion_role_name       = module.bastion.role_name
 }
 
 
@@ -52,6 +80,7 @@ module "bastion" {
   private_key_path  = var.private_key_path
   instance_type     = var.instance_type
   ami               = var.ami 
+  depends_on = [ module.eks.eks_cluster ]
   user_data = <<-EOF
   #!/bin/bash
 
@@ -78,10 +107,27 @@ module "bastion" {
   mkdir -p $HOME/bin && cp ./aws-iam-authenticator $HOME/bin/aws-iam-authenticator && export PATH=$PATH:$HOME/bin
   echo 'export PATH=$PATH:$HOME/bin' >> ~/.bashrc
 
+  #  Install eckctl for role mapping 
+  ARCH=amd64
+  PLATFORM=$(uname -s)_$ARCH
+  curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
+  tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
+  sudo mv /tmp/eksctl /usr/local/bin
+ 
+  aws sts get-caller-identity
 
   # Update Kubectl
   aws eks update-kubeconfig --name ${var.environment}-${var.eks_name}
 EOF
 
 
+}
+
+module  "cluster_autoscaler" {
+  source                         = "./Addons/cluster-autoscaler"
+  env                            = var.environment
+  eks_name                       = module.eks.eks_name
+  cluster_autoscaler_helm_verion = "9.28.0"
+  openid_provider_arn            = module.eks.openid_provider_arn
+  enable_cluster_autoscaler      = true
 }

@@ -36,7 +36,14 @@ variable "eks_name" {
   description = "Name of the cluster."
   type        = string
 }
-
+variable "endpoint_private_access" {
+  type = bool
+  default = true
+}
+variable "endpoint_public_access" {
+  type = bool
+  default = true
+}
 
 variable "node_iam_policies" {
   description = "List of IAM Policies to attach to EKS-managed nodes."

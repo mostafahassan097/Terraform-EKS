@@ -18,6 +18,8 @@ private_subnet_cidr_blocks = [
 
 eks_name = "mostafa"
 eks_version = "1.27"
+endpoint_private_access = true
+endpoint_public_access  = true
 node_groups = {
     general = {
     capacity_type  = "ON_DEMAND"

@@ -39,7 +39,7 @@ resource "aws_instance" "bastion" {
 
 resource "aws_security_group" "bastion_sg" {
   vpc_id = var.vpc_id
-
+  name = "bastion-ssh-sg"
   ingress {
     from_port   = 22
     to_port     = 22
