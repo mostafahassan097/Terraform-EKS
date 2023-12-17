@@ -19,6 +19,7 @@ This repository provides Terraform modules for deploying a secure EKS cluster wi
     * In this module I am defining the important cluster addons
     * Cluster AutoScaler with the prober role mapping
     * AWS LBC with the prober role mapping
+      
 **Requirements:**
 
 * Terraform
