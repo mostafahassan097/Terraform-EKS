@@ -131,3 +131,13 @@ module  "cluster_autoscaler" {
   openid_provider_arn            = module.eks.openid_provider_arn
   enable_cluster_autoscaler      = true
 }
+
+module  "aws_lbc" {
+  source                         = "./Addons/aws-lbc"
+  vpc_id            = module.vpc.vpc_id
+  aws_region = var.region
+  env                            = var.environment
+  eks_name                       = module.eks.eks_name
+  cluster_id                     =  module.eks.cluster_id
+  openid_provider_arn            = module.eks.openid_provider_arn
+}
