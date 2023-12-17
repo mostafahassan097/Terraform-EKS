@@ -15,8 +15,9 @@ This repository provides Terraform modules for deploying a secure EKS cluster wi
 * **Bastion:**
     * Controlled SSH access via security group rules
     * IAM role to assume mapped EKS role for cluster access
-    * Security group rules for essential services like health checks
-
+* **Addons:**
+    * In this module I am defining the important cluster addons
+    * Cluster AutoScaler with the prober role mapping
 **Requirements:**
 
 * Terraform
@@ -28,13 +29,12 @@ This repository provides Terraform modules for deploying a secure EKS cluster wi
 1. Clone the repository.
 2. Install Terraform and AWS CLI.
 3. Configure your AWS credentials.
-4. Update variables in `variables.tf` for each module (vpc, eks, bastion).
-5. Run `terraform init` to initialize modules.
-6. Preview changes with `terraform plan`.
-7. Review and confirm changes.
-8. Deploy the infrastructure with `terraform apply`.
+4. Run `terraform init` to initialize modules.
+5. Preview changes with `terraform plan`.
+6. Review and confirm changes.
+7. Deploy the infrastructure with `terraform apply`.
 
-**Note:** This is a basic example and can be customized for your specific needs. Consider IAM policies and Kubernetes RBAC for further access control. Back up your Terraform state regularly.
+**Note:** This is a basic example and can be customized for your specific needs. Consider IAM policies and Kubernetes RBAC for further access control. Use s3 as backend for terraform state file.
 
 **Resources:**
 
