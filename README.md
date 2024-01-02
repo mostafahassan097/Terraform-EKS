@@ -2,6 +2,8 @@
 
 This repository provides Terraform modules for deploying a secure EKS cluster with a bastion host and VPC setup, ensuring controlled access and robust security.
 
+![App Screenshot](https://github.com/mostafahassan097/Terraform-EKS/blob/master/Images/3.png)
+
 **Key Features:**
 
 * **VPC:**
